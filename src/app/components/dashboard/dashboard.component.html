@@ -1,0 +1,160 @@
+<div class="h-full w-full flex flex-col ">
+
+    <nav class="bg-white border-gray-200 dark:bg-gray-900 h-fit">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a class="flex items-center space-x-3 rtl:space-x-reverse">
+
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ExpenseTracker</span>
+            </a>
+            <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <button (click)="handleLogOut()" type="button"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Logout</button>
+                <button data-collapse-toggle="navbar-cta" type="button"
+                    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                    aria-controls="navbar-cta" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M1 1h15M1 7h15M1 13h15" />
+                    </svg>
+                </button>
+            </div>
+            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-cta">
+                <ul
+                    class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="w-full flex justify-between pt-10 px-10">
+       <div class="chart w-[440px] h-fit bg-slate-300 px-2 py-5">
+        <div class="flex flex-col gap-1 px-10 w-full justify-center items-center border-b pb-5">
+            <p class="text-2xl w-fit font-bold">Income</p>
+            <p class="font-semibold w-fit "> {{income}} ₹</p>
+        </div>
+        <canvas baseChart class="chart py-5" [data]="IncomedoughnutChartData" [type]="'doughnut'">
+        </canvas>
+    </div>
+
+        <div class="center_box w-[500px] h-fit bg-slate-800 flex rounded-sm flex-col py-5 gap-5">
+            <div class=" h-fit px-4 py-6 flex justify-center border mx-5 text-white text-2xl">
+                Balance : {{balance}} ₹
+            </div>
+            <div class="form_data mx-5 px-4 py-4">
+                <form [formGroup]="formData"  class="flex gap-10 justify-between flex-wrap">
+                    <div class="flex flex-col gap-2">
+                        <label for="type" class="text-white">Type</label>
+
+                        <select formControlName="type" id="type" name="type"
+                            class="px-4 py-1 rounded-lg focus:ring-blue-400 focus:outline-blue-300 w-48">
+                            <option class="px-1 py-4" value="income">Income</option>
+                            <option class="px-1 py-4" value="expense">Expense</option>
+
+                        </select>
+                        @if (errorObj['type']) {
+
+                        <p class="text-red-400 text-xs">{{errorObj['type']}}</p>
+                        }
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <label for="category" class="text-white">Category</label>
+                        <select formControlName="category" id="category" name="category"
+                            class="px-4 py-1 rounded-lg focus:ring-blue-700 focus:outline-blue-700 w-48">
+                            <option class="px-1 py-4" value="">Select</option>
+                            <option class="px-1 py-4" value="vehicle">Vehicle</option>
+                            <option class="px-1 py-4" value="bills">Bills</option>
+                            <option class="px-1 py-4" value="clothes">Clothes</option>
+                            <option class="px-1 py-4" value="travel">Travel</option>
+                            <option class="px-1 py-4" value="salary">Salary</option>
+                            <option class="px-1 py-4" value="food">Food</option>
+                            <option class="px-1 py-4" value="shopping">Shopping</option>
+                            <option class="px-1 py-4" value="rent">Rent</option>
+                            <option class="px-1 py-4" value="entertainment">Entertainment</option>
+                            <option class="px-1 py-4" value="phone">Phone</option>
+                            <option class="px-1 py-4" value="pets">Pets</option>
+                            <option class="px-1 py-4" value="fuel">Fuel</option>
+                            <option class="px-1 py-4" value="maintenance">Maintenance</option>
+                            <option class="px-1 py-4" value="other">Other</option>
+                        </select>
+                        @if (errorObj['category']) {
+
+                        <p class="text-red-400 text-xs">{{errorObj['category']}}</p>
+                        }
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="amount" class="text-white">Amount</label>
+                        <input formControlName="amount" placeholder="Enter Amount" name="amount" id="amount"
+                            class="px-4 py-1 rounded-lg focus:ring-blue-700 focus:outline-blue-700 w-48" type="text">
+                        @if (errorObj['amount']) {
+
+                        <p class="text-red-400 text-xs">{{errorObj['amount']}}</p>
+                        }
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label for="date" class="text-white">Date</label>
+                        <input formControlName="date" name="date" id="date"
+                            class="px-4 py-1 rounded-lg focus:ring-blue-700 focus:outline-blue-700 w-48" type="date">
+                        @if (errorObj['date']) {
+
+                        <p class="text-red-400 text-xs">{{errorObj['date']}}</p>
+                        }
+                    </div>
+                    @if (update) {
+                        <button (click)="updateFunction()" type="submit"
+                        class="justify-center w-full flex bg-red-400 px-3 py-2 rounded-lg cursor-pointer text-white hover:bg-red-500">
+                        Update
+                    </button>
+                    }
+                    @else {
+
+                        <button (click)="handleSubmit()" type="submit"
+                            class="justify-center w-full flex bg-red-400 px-3 py-2 rounded-lg cursor-pointer text-white hover:bg-red-500">
+                            Submit
+                        </button>
+                    }
+
+                </form>
+            </div>
+            <div class="px-5 flex h-44 flex-col gap-2 overflow-y-auto">
+                @for (item of firebaseData; track $index) {
+                <div class="min-h-20 bg-slate-100 flex rounded-lg items-center justify-between px-4">
+                    <div [ngClass]="item.type=='income'? ' bg-green-400' :' bg-red-400'"
+                        class="w-14 h-14 rounded-full flex justify-center items-center">
+                        <i class="fa-solid fa-indian-rupee-sign text-2xl "></i>
+                    </div>
+                    <div class="w-64  flex flex-col gap-2">
+                        <div class="flex justify-start gap-10">
+
+                            <h1 class="text-xl font-semibold first-letter:capitalize">
+                                {{item.category}} :-
+                            </h1>
+                            <p class="text-xl font-semibold"> {{item.amount}} ₹</p>
+                        </div>
+                        <p class="text-xs">{{item.date}}</p>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <i (click)="handleUpdate(item.id)"
+                            class="fa-solid fa-pen-to-square cursor-pointer hover:text-green-500"></i>
+                        <i (click)="handleDlt(item.id)"
+                            class="fa-solid fa-trash cursor-pointer hover:text-red-500"></i>
+                    </div>
+                </div>
+                }
+
+            </div>
+        </div>
+
+        <div class="chart w-[440px] h-fit bg-slate-300 px-2 py-5">
+            <div class="flex flex-col gap-1 px-10 w-full justify-center items-center border-b pb-5">
+                <p class="text-2xl w-fit font-bold">Expense</p>
+                <p class="font-semibold w-fit "> {{expense}} ₹</p>
+            </div>
+            <!-- <canvas baseChart class="chart py-5" [data]="ExpensedoughnutChartData" [type]="'doughnut'">
+            </canvas> -->
+            <app-doughnut-chart [doughnutChartData]="ExpensedoughnutChartData"></app-doughnut-chart>
+        </div>
+    </div>
+</div>
